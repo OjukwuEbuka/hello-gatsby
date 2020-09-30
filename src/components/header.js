@@ -1,23 +1,14 @@
 import React from 'react'
-import { Link, graphql, useStaticQuery } from 'gatsby'
+import { Link } from 'gatsby'
 import hst from './header.module.scss'
 
-function Header() {
+function Header(props) {
 
-    const data = useStaticQuery(graphql`
-    query {
-        site {
-            siteMetadata {
-                title
-            }
-        }
-    }
-    `)
     
     return (
         <header className={hst.header}>
             <h3>
-                <Link to="/"  className={hst.title}>{data.site.siteMetadata.title}</Link>
+                <Link to="/"  className={hst.title}>{props.title}</Link>
             </h3>
             <nav>
                 <ul className={hst.navList}>

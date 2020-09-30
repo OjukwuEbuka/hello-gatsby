@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Footer() {
+export default function Footer(props) {
     return (
         <div>
-            <p>Created by Ebuka Ojukwu, Copyright 2020</p>
+            <p>Created by {props.author}, Copyright 2020</p>
         </div>
     )
 }
