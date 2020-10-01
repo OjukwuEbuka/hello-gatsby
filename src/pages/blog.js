@@ -1,11 +1,20 @@
 import React from "react"
 import { graphql, Link, useStaticQuery } from "gatsby"
 import Layout from "../components/layout"
+import styl from './blog.module.scss'
 
 export default function Blog() {
     const posts = useStaticQuery(graphql`
         query {
-            allMarkdownRemark {
+            allMarkdownRemark (
+                filter: {
+                    frontmatter: {
+                        title: {
+                            ne: ""
+                        }
+                    }
+                }
+            ) {
                 edges {
                     node {
                         frontmatter {
@@ -18,19 +27,41 @@ export default function Blog() {
                     }
                 }
             }
+            allContentfulBlogPost {
+                edges {
+                    node {
+                        title
+                        date: publishedDate (fromNow: true)
+                        slug
+                    }
+                }
+            }
         }
     `)
+
     return (
         <Layout>
             <div>
                 <h1>My Blog.</h1>
-                <ul>
+                <ul className={styl.posts}>
                     {posts.allMarkdownRemark.edges.map( ({node}) => (
-                        <li>
-                            <h2>
-                                <Link to={`/blog/${node.fields.slug}`}>{node.frontmatter.title}</Link>
-                            </h2>
-                            <p>{node.frontmatter.date}</p>
+                        <li className={styl.post}>
+                            <Link to={`/blog/${node.fields.slug}`}>
+                                <h2>
+                                    {node.frontmatter.title}
+                                </h2>
+                                <p>{node.frontmatter.date}</p>
+                            </Link>
+                        </li>
+                    ))}
+                    {posts.allContentfulBlogPost.edges.map( ({node}) => (
+                        <li className={styl.post}>
+                            <Link to={`/blog/${node.slug}`}>
+                                <h2>
+                                    {node.title}
+                                </h2>
+                                <p>{node.date}</p>
+                            </Link>
                         </li>
                     ))}
                 </ul>
