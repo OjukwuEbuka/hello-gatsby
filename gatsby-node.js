@@ -40,6 +40,13 @@ module.exports.createPages = async ({ graphql, actions }) => {
                     }
                 }
             }
+            allContentfulBlogPost{
+                edges {
+                    node{
+                        slug
+                    }
+                }
+            }
         }
     `);
 
@@ -49,6 +56,15 @@ module.exports.createPages = async ({ graphql, actions }) => {
             path: `/blog/${node.fields.slug}`,
             context: {
                 slug: node.fields.slug
+            }
+        })
+    })
+    res.data.allContentfulBlogPost.edges.forEach(({node}) => {
+        createPage({
+            component: blogTemplate,
+            path: `/blog/${node.slug}`,
+            context: {
+                slug: node.slug
             }
         })
     })

@@ -40,7 +40,7 @@ export default function Blog() {
     `)
 
     return (
-        <Layout>
+        <Layout title="Blog">
             <div>
                 <h1>My Blog.</h1>
                 <ul className={styl.posts}>
